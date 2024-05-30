@@ -1,0 +1,6 @@
+cloud.aws:
+  credentials:
+    accessKey: ${AWS_ACCESS_KEY_ID:test}
+    secretKey: ${AWS_SECRET_ACCESS_KEY:test}
+  region:
+    static: ${AWS_DEFAULT_REGION:ap-north-east-1}
