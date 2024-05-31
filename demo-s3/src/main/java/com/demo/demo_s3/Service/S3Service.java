@@ -1,12 +1,9 @@
 package com.demo.demo_s3.Service;
 
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.yaml.snakeyaml.Yaml;
@@ -22,7 +19,7 @@ public class S3Service {
     private final AmazonS3 s3Client;
 
     public Map<String, String> getYamlFile() throws IOException {
-        GetObjectRequest request = new GetObjectRequest("", "test.yaml");
+        GetObjectRequest request = new GetObjectRequest("spring-testbuket-2024", "test.yaml");
         S3Object object = s3Client.getObject(request);
 
         try (S3ObjectInputStream reader = object.getObjectContent()) {
