@@ -4,8 +4,16 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
+import com.amazonaws.services.s3.model.S3ObjectInputStream;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.yaml.snakeyaml.Yaml;
+
+import java.io.IOException;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -13,10 +21,15 @@ public class S3Service {
 
     private final AmazonS3 s3Client;
 
-    public void get() throws AmazonS3Exception {
-        GetObjectRequest request = new GetObjectRequest("", "");
+    public Map<String, String> getYamlFile() throws IOException {
+        GetObjectRequest request = new GetObjectRequest("", "test.yaml");
         S3Object object = s3Client.getObject(request);
 
-        object.getObjectContent();
+        try (S3ObjectInputStream reader = object.getObjectContent()) {
+            Yaml yaml = new Yaml();
+            Map<String,String> response =  (Map<String, String>) yaml.load(reader);
+
+            return response;
+        }
     }
 }
