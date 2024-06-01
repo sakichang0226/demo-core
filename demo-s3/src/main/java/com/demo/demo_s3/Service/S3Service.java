@@ -1,6 +1,7 @@
 package com.demo.demo_s3.Service;
 
 import com.demo.demo_s3.client.DemoS3Client;
+import com.demo.demo_s3.entity.Test;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,5 +15,9 @@ public class S3Service {
 
     public Map<String, String> getYamlFile() {
         return client.getObjectFromYaml("spring-testbuket-2024","test");
+    }
+
+    public Test getTest() {
+        return client.getObjectFromFile("spring-testbuket-2024", "test2", Test.class);
     }
 }
