@@ -6,6 +6,7 @@ import com.demo.demo_s3.entity.Test;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -20,5 +21,9 @@ public class S3Service {
 
     public Test getTest() {
         return client.getObjectFromFile(S3BucketEndPoint.TEST, "test2", Test.class);
+    }
+
+    public List<Test> getTestList() {
+        return client.getObjectFromFile(S3BucketEndPoint.TEST, "test3");
     }
 }
