@@ -5,6 +5,8 @@ import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
+import com.demo.demo_s3.exception.DemoS3BusinessException;
+import com.demo.demo_s3.exception.DemoS3SystemException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -31,22 +33,22 @@ public class DemoS3Client {
      * @param key　ファイル名
      * @return 変換したいオブジェクトクラス
      */
+    @SuppressWarnings("unchecked")
     public <T> T getObjectFromYaml(String bucketName, String key) {
 
         try {
             GetObjectRequest request = new GetObjectRequest(bucketName, key + ".yaml");
             S3Object object = s3Client.getObject(request);
-
+            
             S3ObjectInputStream reader = object.getObjectContent();
             Yaml yaml = new Yaml();
 
             return (T) yaml.load(reader);
 
         } catch (AmazonS3Exception e) {
-            log.warn(e.getMessage());
+            throw new DemoS3BusinessException("test", e.getCause());
         }
 
-        return null;
     }
 
     /**
@@ -55,7 +57,7 @@ public class DemoS3Client {
      * @param key　ファイル名
      * @return 変換したいオブジェクトクラス
      */
-    public <T> T getObjectFromFile(String bucketName, String key, Class<T> clazz) {
+    public <T> T getObjectFromFile(String bucketName, String key, Class<T> clazz)  {
 
         try {
             GetObjectRequest request = new GetObjectRequest(bucketName, key + ".json");
@@ -66,10 +68,9 @@ public class DemoS3Client {
 
             return mapper.readValue(reader, clazz);
         } catch (AmazonS3Exception | IOException e) {
-            log.warn(e.getMessage());
+            throw new DemoS3BusinessException("test", e.getCause());
         }
 
-        return null;
     }
 
     /**
@@ -89,10 +90,9 @@ public class DemoS3Client {
 
             return mapper.readValue(reader, new TypeReference<T>() {});
         } catch (AmazonS3Exception | IOException e) {
-            log.warn(e.getMessage());
+            throw new DemoS3BusinessException("test", e.getCause());
         }
 
-        return null;
     }
 
 }
