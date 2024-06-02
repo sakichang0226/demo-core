@@ -10,9 +10,9 @@ public class DemoS3BusinessException extends DemoS3Exception{
         log.warn(message);
     }
 
-    public DemoS3BusinessException(String message, Throwable cause, Object... object) {
+    public DemoS3BusinessException(String message, Throwable cause, Object... objects) {
         super(message, cause);
-        log.warn(message, ":", object);
+        log.warn(message, ":", objects);
     }
 
 }
