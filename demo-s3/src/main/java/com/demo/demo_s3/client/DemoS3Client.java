@@ -82,7 +82,7 @@ public class DemoS3Client {
         } catch (JsonParseException e) {
             throw new DemoS3BusinessException(
                     S3_ERR002.getCode() + ":" +  S3_ERR002.getMessage(),
-                    e.getCause());
+                    e.getCause(), key + ".json");
         } catch (IOException e) {
             throw new DemoS3SystemException(
                     S3_ERR003.getCode() + ":" +  S3_ERR003.getMessage(),
@@ -114,7 +114,7 @@ public class DemoS3Client {
         } catch (JsonParseException e) {
             throw new DemoS3BusinessException(
                     S3_ERR002.getCode() + ":" +  S3_ERR002.getMessage(),
-                    e.getCause());
+                    e.getCause(), key + ".json");
         } catch (IOException e) {
             throw new DemoS3SystemException(
                     S3_ERR003.getCode() + ":" +  S3_ERR003.getMessage(),

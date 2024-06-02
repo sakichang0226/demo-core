@@ -15,7 +15,7 @@ public class DemoS3SystemException extends DemoS3Exception {
 
     public DemoS3SystemException(String message, Throwable cause, Object... objects){
         super(message, cause, objects);
-        log.error(message, ":", objects);
+        log.error(message, ":{}", objects);
     }
 
 }
