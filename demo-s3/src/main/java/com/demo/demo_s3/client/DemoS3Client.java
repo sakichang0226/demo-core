@@ -5,9 +5,13 @@ import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
+import com.demo.demo_s3.constant.S3Error;
 import com.demo.demo_s3.exception.DemoS3BusinessException;
 import com.demo.demo_s3.exception.DemoS3SystemException;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +19,8 @@ import org.springframework.stereotype.Component;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.IOException;
+
+import static com.demo.demo_s3.constant.S3Error.*;
 
 
 /**
@@ -46,7 +52,9 @@ public class DemoS3Client {
             return (T) yaml.load(reader);
 
         } catch (AmazonS3Exception e) {
-            throw new DemoS3BusinessException("test", e.getCause());
+            throw new DemoS3BusinessException(
+                    S3_ERR001.getCode() + ":" +  S3_ERR001.getMessage(),
+                    e.getCause(), key + ".yaml");
         }
 
     }
@@ -67,8 +75,18 @@ public class DemoS3Client {
             ObjectMapper mapper = new ObjectMapper();
 
             return mapper.readValue(reader, clazz);
-        } catch (AmazonS3Exception | IOException e) {
-            throw new DemoS3BusinessException("test", e.getCause());
+        } catch (AmazonS3Exception e) {
+            throw new DemoS3BusinessException(
+                    S3_ERR001.getCode() + ":" +  S3_ERR001.getMessage(),
+                    e.getCause(), key + ".json");
+        } catch (JsonParseException e) {
+            throw new DemoS3BusinessException(
+                    S3_ERR002.getCode() + ":" +  S3_ERR002.getMessage(),
+                    e.getCause());
+        } catch (IOException e) {
+            throw new DemoS3SystemException(
+                    S3_ERR003.getCode() + ":" +  S3_ERR003.getMessage(),
+                    e.getCause());
         }
 
     }
@@ -89,8 +107,18 @@ public class DemoS3Client {
             ObjectMapper mapper = new ObjectMapper();
 
             return mapper.readValue(reader, new TypeReference<T>() {});
-        } catch (AmazonS3Exception | IOException e) {
-            throw new DemoS3BusinessException("test", e.getCause());
+        } catch (AmazonS3Exception e) {
+            throw new DemoS3BusinessException(
+                    S3_ERR001.getCode() + ":" +  S3_ERR001.getMessage(),
+                    e.getCause(), key + ".json");
+        } catch (JsonParseException e) {
+            throw new DemoS3BusinessException(
+                    S3_ERR002.getCode() + ":" +  S3_ERR002.getMessage(),
+                    e.getCause());
+        } catch (IOException e) {
+            throw new DemoS3SystemException(
+                    S3_ERR003.getCode() + ":" +  S3_ERR003.getMessage(),
+                    e.getCause());
         }
 
     }
