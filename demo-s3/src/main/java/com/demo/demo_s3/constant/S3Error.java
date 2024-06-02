@@ -1,5 +1,9 @@
 package com.demo.demo_s3.constant;
 
+/**
+ * demo-s3内のエラー発生時に扱うエラーコードと文言<br>
+ * 新規発番する際はこちらに追加すること
+ */
 public enum S3Error {
 
     S3_ERR001("S3_ERR001","S3に対象のデータが見つかりません"),
