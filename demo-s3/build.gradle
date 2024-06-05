@@ -1,0 +1,18 @@
+project(":demo-s3") {
+	dependencies {
+		implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'
+		implementation platform('com.amazonaws:aws-java-sdk-bom:1.12.529')
+		implementation 'com.amazonaws:aws-java-sdk-s3'
+		implementation group: 'org.yaml', name: 'snakeyaml', version: '1.8'
+
+		testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	}
+
+	jar {
+		enabled = true
+	}
+
+	bootJar {
+		enabled = false
+	}
+}
