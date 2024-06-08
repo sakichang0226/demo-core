@@ -15,7 +15,7 @@ public class TodoService {
 
     public Todo getTodo(String partitionKey, String seqUserId) {
         return repository.getItem(TableName.TODO, AttributeValue.fromS(partitionKey),
-                AttributeValue.fromN("123456"));
+                AttributeValue.fromN(seqUserId));
     }
 
 }
