@@ -1,0 +1,3 @@
+spring:
+  dynamodb:
+    endpoint: "localhost:8080"

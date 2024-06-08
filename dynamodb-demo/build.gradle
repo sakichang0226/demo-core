@@ -1,0 +1,10 @@
+project(":dynamodb-demo") {
+	dependencies {
+		implementation platform("io.awspring.cloud:spring-cloud-aws-dependencies:3.0.2")
+		implementation 'io.awspring.cloud:spring-cloud-aws-starter'
+		implementation 'io.awspring.cloud:spring-cloud-aws-starter-dynamodb'
+
+	}
+
+	bootJar.enabled = false;
+}
