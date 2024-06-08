@@ -1,0 +1,7 @@
+project(":dynamodb-demo") {
+	dependencies {
+
+	}
+
+	bootJar.enabled = false;
+}
