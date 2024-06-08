@@ -1,3 +1,2 @@
-spring:
-  dynamodb:
-    endpoint: "localhost:8080"
+dynamo:
+  endpoint: "https://dynamodb.ap-northeast-1.amazonaws.com/"
