@@ -11,13 +11,13 @@ import java.net.URI;
 @Configuration
 public class DynamoDBConfiguration {
 
-    @Value("${dynamo.endpoint}")
-    String endpoint;
+    @Value("${amazon.dynamodb.endpoint:https://dynamodb.ap-northeast-1.amazonaws.com/}")
+    private String endpoint;
 
    @Bean
-   public DynamoDbClient dynamoDbClient() {
+   public DynamoDbClient dynamoDbClient(URI dynamoDbEndPoint) {
        return DynamoDbClient.builder()
-               .endpointOverride(URI.create(endpoint))
+               .endpointOverride(dynamoDbEndPoint)
                .build();
    }
 
@@ -25,6 +25,11 @@ public class DynamoDBConfiguration {
    public DynamoDbEnhancedClient dynamoDbEnhancedClient(DynamoDbClient client) {
         return DynamoDbEnhancedClient.builder()
                 .dynamoDbClient(client).build();
+   }
+
+   @Bean
+   public URI dynamoDbEndPoint() {
+        return URI.create(endpoint);
    }
 
 }
