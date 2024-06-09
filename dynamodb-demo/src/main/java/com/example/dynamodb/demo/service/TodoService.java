@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class TodoService {
@@ -16,6 +18,10 @@ public class TodoService {
     public Todo getTodo(String partitionKey, String seqUserId) {
         return repository.getItem(TableName.TODO, AttributeValue.fromS(partitionKey),
                 AttributeValue.fromN(seqUserId));
+    }
+
+    public List<Todo> getTodos(String partitionKey) {
+        return repository.getItems(TableName.TODO, AttributeValue.fromS(partitionKey));
     }
 
 }
